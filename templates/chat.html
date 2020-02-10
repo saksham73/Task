@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Responses</title>
+        <style>
+            .box {
+                position: fixed;
+                bottom: 10px;
+                right: 30%;
+            }
+            td.bot>span {
+                font: 15px arial, sans-serif;
+            }
+            td.user>span {
+                font: 15px arial, sans-serif;
+            }
+            td.bot {
+                text-align:left;
+            }
+            td.user {
+                text-align:right;
+            }
+            table.chat{
+                width:70%;
+                overflow-y: scroll;
+                border-style: dashed;
+                max-height:40px;
+  background-color: #AEB6BF ;
+  border-width: 0px;
+  padding-top: 10px;
+  padding-bottom: 15px;
+  padding-right: 20px;
+  padding-left: 15px;
+  border-radius: 40px;
+  overflow-y: scroll;
+  max-height:40px;
+            }            
+        </style>
+    </head>
+    <body  onload = "initial()" bgcolor="#AEB6BF ">
+        <table class = "chat" id="tbl" align=center max-height= "50px">
+           <marquee> <h1 align="center">Chatbot</h1></marquee>
+        </table>
+        <div class = "box" max-height= "50px">
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+         <div align="center">
+            <div align="footer">
+            <table>
+                <tr>
+                    <td>
+                        <input type=text id="txt" name="user_input" size="110">
+                    </td>
+                    <td>
+                        <input type="button" id="button_send" value="Chat" placeholder="Enter your message here" onclick=chatbot()>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        </div>
+       <script>
+
+            function initial()
+            {
+                var input_txtbx = document.getElementById("txt");
+                input_txtbx.addEventListener("keyup", function(event) {
+                    if (event.keyCode === 13) 
+                    {
+                        event.preventDefault();
+                        document.getElementById("button_send").click();
+                        input_txtbx.value = "";
+                    }
+                });
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange=function(){
+                    if( this.readyState == 4 && this.status == 200)
+                    {
+                        if(this.responseText == "")
+                        {
+                            window.location.href = "/";
+                            return false;
+                        }
+                        var reply = JSON.parse(this.responseText);
+                        for(var i=0;i<reply['bot'].length;i++)
+                        {
+                            add_bot_text(reply['bot'][i], "tbl");
+                            add_user_text(reply['user'][i], "tbl");
+                        }
+                        add_bot_text("Hey, " + reply['username'] + "!","tbl");
+                        window.scrollTo(0, document.body.scrollHeight);
+                    }
+                };
+                xhttp.open("GET","/get_uname",true);
+                xhttp.setRequestHeader("Content-Type", "application/json");
+                xhttp.send();
+            }
+            
+            function chatbot()
+            {
+                user_input = document.getElementById("txt").value.trim().toLowerCase();
+                if(user_input == "ok bye")
+                {
+                    window.location.href = "/logout";
+                    return false;
+                }
+                add_user_text(user_input,"tbl");
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function(){
+                    if( this.readyState == 4 && this.status == 200)
+                    {
+                        add_bot_text(this.responseText,"tbl");
+                        document.getElementById("txt").value="";
+                        window.scrollTo(0, document.body.scrollHeight);
+                    } 
+                };
+                data = { "user": user_input};
+                xhttp.open("POST","/bot_response",true);
+                xhttp.setRequestHeader("Content-Type", "application/json");
+                xhttp.send(JSON.stringify(data));
+            }
+
+
+            function add_user_text(user_, tbl_id)
+            {
+                tbl_row = document.createElement("tr");
+                tbl_d = document.createElement("td");
+                tbl_span = document.createElement("span");
+                tbl_d.setAttribute("class","user");
+                tbl_span.appendChild( document.createTextNode(user_) );
+                tbl_d.appendChild(tbl_span);
+                tbl_row.appendChild(tbl_d);
+                document.getElementById(tbl_id).appendChild(tbl_row);
+            }
+            
+
+            function add_bot_text(bot_, tbl_id)
+            {
+                tbl_row = document.createElement("tr");
+                tbl_d = document.createElement("td");
+                tbl_span = document.createElement("span");
+                tbl_d.setAttribute("class","bot");
+                tbl_span.appendChild( document.createTextNode(bot_) );
+                tbl_d.appendChild(tbl_span);
+                tbl_row.appendChild(tbl_d);
+                document.getElementById(tbl_id).appendChild(tbl_row);
+            }
+        </script>
+    </body>
+</html>

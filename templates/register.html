@@ -1,0 +1,44 @@
+<html>
+<head>
+    <title>Registeration form</title>
+</head>
+<body bgcolor="#AEB6BF ">
+<div class="container">
+    <div class="row">
+        <div align="center">
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <form method=POST action="{{ url_for('register') }}">
+                <div class="form-group" align="center">
+                    <label for="exampleInputEmail1">Username</label>
+                    <input type="text" class="form-control" name="username" placeholder="Username">
+                </div>
+                <br>
+                <br>
+                 <div class="form-group" align="center">
+                    <label for="exampleInputEmail2">E-mail</label>
+                    <input type="text" class="form-control" name="E-mail" placeholder="E-mail">
+                </div>
+                <br>
+                <br>
+                <div class="form-group" align="center">
+                    <label for="exampleInputPassword1">Password</label>
+                    <input type="password" class="form-control" name="pass" placeholder="Password">
+                </div>
+                <br>
+                <br>
+                <button type="submit" class="btn btn-primary btn-block" align="center">Register</button>
+            </form>
+            <br>
+        </div>
+    </div>
+</div>
+</body>
+</html>
