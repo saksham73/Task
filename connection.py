@@ -1,7 +1,7 @@
 from flask import Flask, render_template,request, session, redirect, url_for
 from pymongo import MongoClient
 #from flask.ext.pymongo import PyMongo
-from bot_response import botResponse, chat_history
+from reply_rec import botResponse, chat_history
 from flask_pymongo import PyMongo
 from flask_login import logout_user
 import bcrypt
