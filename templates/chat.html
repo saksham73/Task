@@ -39,7 +39,7 @@
     </head>
     <body  onload = "initial()" bgcolor="#AEB6BF ">
         <table class = "chat" id="tbl" align=center max-height= "50px">
-           <marquee> <h1 align="center">Talk to us!<marquee>
+           <marquee> <h4 align="center">Talk to us!<marquee>
         </table>
         <div class = "box" max-height= "50px">
         </div>
@@ -126,7 +126,7 @@
                     } 
                 };
                 data = { "user": user_input};
-                xhttp.open("POST","/bot_response",true);
+                xhttp.open("POST","/reply_rec",true);
                 xhttp.setRequestHeader("Content-Type", "application/json");
                 xhttp.send(JSON.stringify(data));
             }

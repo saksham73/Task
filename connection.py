@@ -63,7 +63,7 @@ def register():
 
 	return render_template('register.html')
 
-@app.route("/bot_response", methods = ["GET","POST"] )
+@app.route("/reply_rec", methods = ["GET","POST"] )
 def resp():
 	data = request.json
 	#chat_history(session["username"])
